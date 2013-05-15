@@ -1,0 +1,74 @@
+@mixin pos($shorthand, $offsets) {
+	@if $shorthand !=null {
+		@if $shorthand == "s" or $shorthand == "sta" {
+			position: static;
+		} @else if $shorthand == "r" or $shorthand == "rel" {
+			position: relative;
+		} @else if $shorthand == "a" or $shorthand == "ab" or $shorthand == "abs" {
+			position: absolute;
+		}@else if $shorthand == "f" or $shorthand == "fix" {
+			position: fixed;
+		} @else {//didn't match, don't output anything
+			@debug "position accepts 's, sta, r, rel, a, ab, f, fix' as shorthands"
+		}
+	}
+	
+
+	//none || null means ignore
+	//auto sets val back to normal, 'removes' it, say left is set to 0, then you want right:0 at a mQ, set left:auto to get rid of it
+
+	// position ALL the offsets
+	@if length($offsets) == 1 {
+
+		// save me writing four times
+		$positionProperty: top, right, bottom, left;
+
+		@if $offsets != none {
+			@each $property in $positionProperty {#{$property}: $offsets; }
+		}
+
+	} @else if length($offsets) == 2 {
+
+		
+		@if nth($offsets, 1) != none {
+			top: nth($offsets, 1);
+			bottom: nth($offsets, 1);
+		}
+		
+		@if nth($offsets, 2) != none {
+			right: nth($offsets, 2);
+			left: nth($offsets, 2);
+		}
+
+	} @else if length($offsets) == 3 {
+		@if nth($offsets, 1) != none {
+			top: nth($offsets, 1);
+		}
+
+		@if nth($offsets, 2) != none {
+			right: nth($offsets, 2);
+			left: nth($offsets, 2);
+		}
+
+		@if nth($offsets, 3) != none {
+			bottom: nth($offsets, 3);
+		}
+
+	} @else if length($offsets) == 4 {
+		@if nth($offsets, 1) != none {
+			top: nth($offsets, 1);
+		}
+
+		@if nth($offsets, 2) != none {
+			right: nth($offsets, 2);
+		}
+
+		@if nth($offsets, 3) != none {
+			bottom: nth($offsets, 3);
+		}
+
+		@if nth($offsets, 4) != none {
+			left: nth($offsets, 4);
+		}
+	}
+}
